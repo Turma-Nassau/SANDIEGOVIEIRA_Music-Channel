@@ -4,7 +4,7 @@
 Projeto de site para ouvir músicas.
 
 ## :books: Funcionalidades
-* <b>Funcionalidades </b>:  Neste site, o usuário poderá ouvir deste as músicas.
+* <b>Funcionalidades </b>:  Neste site, o usuário poderá ouvir sua própria lista de músicas, apartir de uma própria pasta local.
 
 ## :wrench: Tecnologias utilizadas
 * HTML
