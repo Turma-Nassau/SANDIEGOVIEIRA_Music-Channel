@@ -12,7 +12,7 @@ Projeto de site para ouvir músicas.
 * CSS
 
 ## :soon: Implementação futura
-* Projeto poderá receber adição de funções como poder baixar as músicas diretamente no dispositivo acessado e mais de uma linguagem, como também a função de se adaptar ao formato mobile ao ser acessado através de dispositivos móveis.
+* Projeto poderá receber adição de funções como poder alterar cor do site, modo escuro e como também a função de se adaptar ao formato mobile ao ser acessado através de dispositivos móveis.
 
 ## :handshake: Colaboradores
 <table>
