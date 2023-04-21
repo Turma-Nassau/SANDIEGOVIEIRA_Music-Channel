@@ -10,6 +10,7 @@ Projeto de site para ouvir músicas.
 * HTML
 * Javascript
 * CSS
+* Node-JS
 
 ## :soon: Implementação futura
 * Projeto poderá receber adição de DB e funções como poder alterar cor do site, modo escuro e como também a função de se adaptar ao formato mobile ao ser acessado através de dispositivos móveis.
