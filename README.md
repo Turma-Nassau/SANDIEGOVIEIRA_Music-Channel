@@ -1,59 +1,184 @@
 <h1 align="center">:cd: :musical_note: Music Channel</h1>
 
 ## :memo: Descrição
-Projeto de site para ouvir músicas.
+O Music Channel é uma aplicação que lista arquivos de áudio disponíveis e os exibe em uma interface de usuário simples. O projeto é composto por uma API em Node.js e um aplicativo React.
+
+## Passos necessários para executar o projeto:
+- Certifique-se de ter o Node.js instalado em sua máquina. Você pode baixar a versão mais recente do Node.js em https://nodejs.org/.
+- Clone o repositório:
+
+Abra o terminal ou prompt de comando e navegue até o diretório em que você deseja clonar o projeto.
+
+Execute o seguinte comando para clonar o repositório:
+```s
+git clone https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel.git
+```
+- Instale as dependências:
+
+Navegue até o diretório raiz do projeto clonado.:
+```s
+cd music-channel
+```
+- Instale as dependências da API:
+```s
+cd api
+npm install
+```
+- Em outro terminal, navegue para o diretório do aplicativo React e instale as dependências:
+```s
+cd musicchannel
+npm install
+```
+- Inicie o servidor:
+```s
+node server.js
+```
+- Inicie o React:
+```s
+npm start
+```
+O aplicativo Music Channel estará sendo executado em http://localhost:3000, e a API estará sendo executada em http://localhost:4000/api.
 
 ## :books: Funcionalidades
-* <b>Funcionalidades </b>:  Neste site, o usuário poderá ouvir musicas através de um canal de musicas fornecido por uma API.
+* <b>Funcionamento</b>:  A aplicação consiste em duas partes principais: a API e o aplicativo React. A API é responsável por fornecer a lista de arquivos de áudio disponíveis, enquanto o aplicativo React consome essa API e exibe os arquivos na interface do usuário.
 
 ## :wrench: Tecnologias utilizadas
-* HTML
-* Javascript
-* CSS
+* HTML5
+* React
+* CSS3
 * Node-JS
-## Estrutura de Dados
+* API Fetch
+* Express
+## Estrutura de Dados da API
 
-- Node-ID3
+- Responsalvel por ler os arquivos
+- Nesse trecho do arquivo 'audioController.js', a função getAudioFiles é exportada para ser utilizada como um controlador de rota. Ela recebe as requisições HTTP (req) e envia as respostas (res).
 
-```s
-   const fs = require('fs');
-const path = require('path');
-const express = require('express');
-const ID3 = require('node-id3'); // biblioteca id3 para ler os metadados
+Dentro da função, o primeiro passo é definir o diretório onde os arquivos de áudio estão localizados. Neste projeto, o diretório usado é definido como musicas. Mais pode ajustar o caminho para corresponder à localização correta dos seus arquivos.
 
-```
-- Ler todos os arquivos
+Em seguida, utilizei a função readdirSync do módulo fs para obter uma lista de todos os arquivos no diretório. Depois, é aplicado um filtro para selecionar apenas os arquivos que possuem a extensão .mp3. Essa lista filtrada é armazenada na variável mp3Files.
 
-```s
-  fs.readdir(directoryPath, (err, files) => {
-    if (err) {
-      return console.log('Unable to scan directory: ' + err); // ler todos os arquivos
-    }  
-
-```
-- Filtro de arquivos
+Por fim, é enviada a lista de arquivos em formato JSON como resposta sendo utilizado o método res.json(mp3Files). Caso ocorra algum erro durante a leitura dos arquivos, um erro é retornado com uma mensagem de erro adequada.
 
 ```s
- files.filter(file => {
-      return path.extname(file).toLowerCase() === '.mp3'; // filtra os arquivos mp3
-    }).forEach(mp3 => {
-      const tags = ID3.read(path.join(directoryPath, mp3));
-      mp3Files.push({
-        file: mp3,
-        image: tags.image ? tags.image.imageBuffer.toString() : null 
-      });
-    });
+exports.getAudioFiles = (req, res) => {
+  const audioFolder = path.join(__dirname, '..', 'musicas');
+
+  try {
+    const files = fs.readdirSync(audioFolder);
+    const mp3Files = files.filter(file => file.endsWith('.mp3'));
+
+    res.json(mp3Files);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to read audio files' });
+  }
+};
 
 ```
-- Após o servidor ser iniciado, a API trás os arquivos e a imagem do arquivo mp3 correspondente, após ser implementado em html estará visível.
+- No arquivo abaixo 'audioRoutes.js', possui a  configuração da rota
+- Aqui é definido que a rota '/audios' será tratada pelo controlador 'getAudioFiles' do 'audioController'. Pois quando uma requisição GET for feita para a rota '/audios', a função 'getAudioFiles' será executada para retornar a lista de arquivos de áudio.
 
-![image](https://user-images.githubusercontent.com/38019660/233528143-96ee916a-837f-4d89-804a-844aff12b9ce.png)
+```s
+  router.get('/audios', audioController.getAudioFiles);
 
-![image](https://user-images.githubusercontent.com/38019660/233528459-5b8708b5-e167-4277-abb9-824eef1b91ae.png)
+```
+Essa é a estrutura de dados básica da API. Ela lê os arquivos de áudio de um diretório específico e retorna a lista de arquivos para o cliente que fez a requisição.
+
+
+
+## Estrutura de dados do React
+
+- No arquivo 'App.js', possui o seguinte trecho de código:
+
+```s
+import React, { useState, useEffect } from 'react';
+import { getAudioFiles } from './api/audioAPI';
+
+function App() {
+  const [audios, setAudios] = useState([]);
+
+  useEffect(() => {
+    const fetchAudios = async () => {
+      try {
+        const data = await getAudioFiles();
+        setAudios(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchAudios();
+  }, []);
+
+  return (
+    <div>
+      <h1>List of Audio Files</h1>
+      <ul>
+        {audios.map(audio => (
+          <li key={audio}>{audio}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+```
+Nesse trecho, possui o componente principal 'App'. Ele utiliza o hook 'useState' para criar o estado 'audios', que é um array vazio inicialmente. Esse estado será atualizado com a lista de arquivos de áudio obtida da API.
+
+O hook 'useEffect' é utilizado para realizar uma chamada assíncrona à API e obter os arquivos de áudio. Quando o componente é montado, a função 'fetchAudios' é executada. Essa função utiliza a função 'getAudioFiles' do arquivo 'audioAPI.js' para fazer a requisição à API.
+
+Quando a resposta da API é recebida, o estado audios é atualizado utilizando a função 'setAudios', o que faz com que o componente seja renderizado novamente.
+
+No retorno do componente, temos a estrutura JSX que define a interface do usuário. A lista de arquivos de áudio é renderizada como uma lista não ordenada 'ul', onde cada item é um elemento 'li'.
+   
+ 
+- No arquivo 'audioAPI.js', possui o seguinte trecho de código:
+   
+  
+```s
+const BASE_URL = 'http://localhost:4000/api';
+
+export const getAudioFiles = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/audios`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch audio files');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+```
+Nesse trecho, temos a função 'getAudioFiles', que realiza a requisição assíncrona à API para obter a lista de arquivos de áudio.
+
+Primeiro, foi definido a constante 'BASE_URL' que representa o URL base da API. Em seguida, foi usada a função 'fetch' para fazer a requisição GET para a rota '/audios' da API.
+
+Se a resposta da API não for bem-sucedida (status de resposta diferente de 200), é lançado um erro. Caso contrário, é ultilizado o método 'json()' para obter os dados da resposta como um objeto JavaScript.
+
+Os dados são retornados pela função 'getAudioFiles' e serão utilizados posteriormente no componente 'App'.
+   
+Essa é a estrutura de dados básica do React. Ela utiliza os hooks 'useState' e 'useEffect' para gerenciar o estado do componente e realizar chamadas assíncronas à API. Os dados obtidos da API são armazenados no estado e utilizados para renderizar a interface do usuário.
+
+## Imagens adicionais da API em funcionamento
+
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/73d09749-db02-4570-93f0-cea72b08bbbb)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/372ff618-e587-483d-b60f-dc0b291f5a1d)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/cf426326-c794-44f4-bab4-7451f8142e33)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/31c5cb59-0a24-42bf-9f5c-37dfca89a03f)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/b5489448-f692-4e69-9a1b-d9b49fedcedc)
 
 
 ## :soon: Implementação futura
-* Projeto poderá receber adição de DB e funções como poder alterar cor do site, modo escuro e como também a função de se adaptar ao formato mobile ao ser acessado através de dispositivos móveis.
+* Suporte a formatos de arquivo adicionais: Além dos arquivos MP3, permitir o suporte a outros formatos populares de áudio, como WAV, FLAC ou AAC..
+* Reprodução de áudio: Adicionar funcionalidade de reprodução de áudio aos arquivos listados. Isso pode incluir controles de reprodução, como play, pause e controle de volume.
+* Pesquisa e filtragem: Implementar recursos de pesquisa e filtragem para facilitar a localização de arquivos de áudio específicos. Isso pode incluir a adição de um campo de pesquisa onde os usuários podem digitar palavras-chave ou filtros, como gênero, artista ou ano.
 
 ## :handshake: Colaboradores
 <table>
