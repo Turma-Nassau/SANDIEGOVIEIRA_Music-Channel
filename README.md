@@ -166,6 +166,17 @@ Os dados são retornados pela função 'getAudioFiles' e serão utilizados poste
    
 Essa é a estrutura de dados básica do React. Ela utiliza os hooks 'useState' e 'useEffect' para gerenciar o estado do componente e realizar chamadas assíncronas à API. Os dados obtidos da API são armazenados no estado e utilizados para renderizar a interface do usuário.
 
+## Nota adicional para caso queira ver a transferência de dados da API em tempo real:
+
+- Abra o projeto React em seu navegador, certificando-se de que a aplicação esteja em execução.
+- Abra o Chrome DevTools. Você pode fazer isso clicando com o botão direito em qualquer lugar na página e selecionando "Inspecionar" ou pressionando Ctrl+Shift+I (Windows/Linux) ou Cmd+Option+I (Mac).
+- Na guia "DevTools", navegue até a seção "Network" (Rede).
+- Atualize a página ou realize uma ação na aplicação que dispara uma requisição à API.
+- Observe as solicitações na lista exibida na guia "Network". Você verá uma entrada para cada solicitação feita pela aplicação.
+- Clique na solicitação desejada para visualizar os detalhes.
+- Na aba "Headers" (Cabeçalhos), você pode ver informações sobre a solicitação, como a URL, os cabeçalhos e os parâmetros enviados.
+- Na aba "Preview" (Visualização) ou "Response" (Resposta), você pode ver o corpo da resposta retornada pela API, que geralmente contém os dados transferidos.
+
 ## Imagens adicionais da API em funcionamento
 
 ![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/73d09749-db02-4570-93f0-cea72b08bbbb)
