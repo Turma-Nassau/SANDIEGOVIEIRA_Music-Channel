@@ -179,7 +179,9 @@ Essa é a estrutura de dados básica do React. Ela utiliza os hooks 'useState' e
 
 ## Imagens adicionais da API em funcionamento
 
-![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/73d09749-db02-4570-93f0-cea72b08bbbb)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/ed230901-a168-480b-a4f0-178624a19b32)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/ccd4df96-04ef-4026-aa9e-08da9bb6fcf0)
+![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/599a549a-421a-45c7-bbf6-eda174d84eed)
 ![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/372ff618-e587-483d-b60f-dc0b291f5a1d)
 ![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/cf426326-c794-44f4-bab4-7451f8142e33)
 ![image](https://github.com/Turma-Nassau/SANDIEGOVIEIRA_Music-Channel/assets/38019660/31c5cb59-0a24-42bf-9f5c-37dfca89a03f)
